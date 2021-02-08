@@ -1,20 +1,41 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>To Do List</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content padding>
+  <ion-item *ngIf="!editing">
+    <ion-input type="text" placeholder="Adicionar tarefa" [(ngModel)]="taskName"></ion-input>
+    <div class="item-note" item-end>
+      <ion-button color="primary" (click)="addTask()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-item>
+  <div padding>
+    <ion-list *ngIf="!editing">
+      <ion-item *ngFor="let todo of taskList; let i = index">
+        {{todo}}
+        <div class="item-note" slot="end">
+          <ion-button color="danger" clear (click)="deleteTask(i)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+          <ion-button color="warning" clear (click)="editTask(i)">
+            <ion-icon class="edit-icon" name="create"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="editing">
+      <ion-item *ngFor="let todo of editList">
+        <ion-input type="text" placeholder="{{todo}}" [(ngModel)]="newTaskName"></ion-input>
+        <div class="item-note" slot="end">
+          <ion-button color="success" clear (click)="saveEditing()">
+            <ion-icon name="checkmark"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
